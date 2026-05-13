@@ -964,18 +964,21 @@ async function lookupRep() {
   setLoading(true);
 
   try {
-    // Step 1: Geocode → lat/lng via US Census Bureau (free, no API key)
+    // Step 1: Geocode → lat/lng via Nominatim/OpenStreetMap (free, no key, CORS-friendly)
     const fullAddress = `${street}, ${city}, CA ${zip}`;
-    const geoRes  = await fetch(`https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=${encodeURIComponent(fullAddress)}&benchmark=Public_AR_Current&format=json`);
+    const geoRes = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json&limit=1&countrycodes=us`,
+      { headers: { 'Accept-Language': 'en-US' } }
+    );
     if (!geoRes.ok) throw new Error('geocode_fail');
     const geoData = await geoRes.json();
 
-    const matches = geoData?.result?.addressMatches;
-    if (!matches || matches.length === 0) {
+    if (!geoData || geoData.length === 0) {
       return showMsg('lookupError', 'We couldn\'t find that address. Please double-check your street, city, and ZIP code.', 'error');
     }
 
-    const { x: lng, y: lat } = matches[0].coordinates;
+    const lat = parseFloat(geoData[0].lat);
+    const lng = parseFloat(geoData[0].lon);
 
     // Step 2: OpenStates /people.geo → CA Assembly member
     const osRes  = await fetch(`https://v3.openstates.org/people.geo?lat=${lat}&lng=${lng}`, {
