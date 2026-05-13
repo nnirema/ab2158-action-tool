@@ -787,7 +787,16 @@
     <h3>Thank you for taking action!</h3>
     <p>Your email client should have opened with everything pre-filled. Just hit Send.<br><br>
     Every message shows Assemblymembers that Californians care about outdoor learning and environmental literacy for every student.</p>
-    <div class="share-nudge">Help grow support — share this page with colleagues, parents, and community members who care about outdoor learning.</div>
+    <div id="sentConfirmWrapper" style="margin-top:20px;">
+      <p style="font-size:14px;color:#3B5C30;margin-bottom:10px;">Did you send it?</p>
+      <button onclick="confirmSent()" style="background:var(--forest);color:white;border:none;border-radius:8px;padding:12px 28px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">
+        ✅ &nbsp;Yes, I sent it!
+      </button>
+    </div>
+    <div id="sentConfirmDone" style="display:none;margin-top:16px;">
+      <p style="color:var(--forest);font-weight:700;font-size:15px;">✓ Recorded — thank you for making your voice heard!</p>
+    </div>
+    <div class="share-nudge" style="margin-top:18px;">Help grow support — share this page with colleagues, parents, and community members who care about outdoor learning.</div>
   </div>
 
 </div>
@@ -837,8 +846,52 @@
 // CONFIGURATION
 // ============================================================
 const OPENSTATES_API_KEY = '2e7d288d-50c8-442a-aa0f-f6f85cdec768';
-const BCC_EMAIL          = 'nnirema@gmail.com';
+const BCC_EMAIL          = 'ab2158coalition@gmail.com';
 const EMAIL_SUBJECT      = '[SUBJECT LINE — TO BE SET BY COALITION]';
+
+// ============================================================
+// GOOGLE FORM TRACKING
+// Silent submissions — user never sees this
+// Form: https://docs.google.com/forms/d/e/1FAIpQLSfXeB9_idkZQhxeS7-_AZGT32wkX3S_5c6FPYChmWZcIB1cBw
+// ============================================================
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfXeB9_idkZQhxeS7-_AZGT32wkX3S_5c6FPYChmWZcIB1cBw/formResponse';
+const FORM_FIELDS = {
+  firstName:       'entry.646362585',
+  lastName:        'entry.2005636332',
+  email:           'entry.1104744870',
+  organization:    'entry.1194147070',
+  role:            'entry.1977971160',
+  district:        'entry.1608632998',
+  assemblymember:  'entry.989752393',
+  trackingType:    'entry.301788221',
+};
+
+function submitTracking(type) {
+  try {
+    const params = new URLSearchParams({
+      [FORM_FIELDS.firstName]:      v('firstName'),
+      [FORM_FIELDS.lastName]:       v('lastName'),
+      [FORM_FIELDS.email]:          v('userEmail'),
+      [FORM_FIELDS.organization]:   v('organization'),
+      [FORM_FIELDS.role]:           document.getElementById('roleType').value || '',
+      [FORM_FIELDS.district]:       String(currentDistrict || ''),
+      [FORM_FIELDS.assemblymember]: currentMemberName || '',
+      [FORM_FIELDS.trackingType]:   type,
+    });
+    fetch(FORM_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+  } catch(e) { /* silent — tracking never breaks UX */ }
+}
+
+function confirmSent() {
+  submitTracking('Confirmed');
+  document.getElementById('sentConfirmWrapper').style.display = 'none';
+  document.getElementById('sentConfirmDone').style.display    = 'block';
+}
 
 // ============================================================
 // STAFF DATABASE — All 80 CA Assembly Districts
@@ -1151,6 +1204,7 @@ function sendEmail() {
   const mailto = `mailto:${[...toSet].join(',')}?subject=${encodeURIComponent(subject)}${bcc}&body=${encodeURIComponent(body)}`;
 
   closeModal();
+  submitTracking('Intent');
   window.location.href = mailto;
 
   setTimeout(() => {
