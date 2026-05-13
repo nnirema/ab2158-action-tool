@@ -5,6 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support AB 2158 – Email Your Assemblymember</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+  // Google Places Autocomplete (New API) — initialised via callback once Maps loads
+  window._initMapsAutocomplete = async function() {
+    try {
+      const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
+      const ac = new PlaceAutocompleteElement({
+        componentRestrictions: { country: 'us' },
+        types: ['address']
+      });
+      const container = document.getElementById('pac-container');
+      if (!container) return;
+      container.appendChild(ac);
+
+      ac.addEventListener('gmp-select', async ({ placePrediction }) => {
+        const place = placePrediction.toPlace();
+        await place.fetchFields({ fields: ['addressComponents'] });
+
+        let streetNum = '', route = '', city = '', state = '', zip = '';
+        for (const c of place.addressComponents) {
+          if (c.types.includes('street_number'))                  streetNum = c.longText;
+          if (c.types.includes('route'))                          route     = c.longText;
+          if (c.types.includes('locality'))                       city      = c.longText;
+          if (c.types.includes('administrative_area_level_1'))    state     = c.shortText;
+          if (c.types.includes('postal_code'))                    zip       = c.longText;
+        }
+
+        if (state && state !== 'CA') {
+          showMsg('lookupError', 'Please enter a California address.', 'error');
+          return;
+        }
+
+        const street = [streetNum, route].filter(Boolean).join(' ');
+        if (street) document.getElementById('streetAddress').value = street;
+        if (city)   document.getElementById('city').value          = city;
+        if (zip)    document.getElementById('zip').value           = zip;
+        clearMsg('lookupError');
+      });
+    } catch(e) {
+      // Graceful fallback — user can still fill in fields manually
+    }
+  };
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-6A5AKjE4jNuTt6xPWiqVMT6Mnf7PskA&loading=async&callback=_initMapsAutocomplete"></script>
   <style>
     :root {
       --forest:       #2A5C1E;
@@ -449,6 +492,34 @@
       .hero { padding: 36px 18px 30px; }
     }
 
+    /* ── GOOGLE PLACES AUTOCOMPLETE (NEW API) ── */
+    .pac-label { font-size: 13px; font-weight: 600; color: var(--charcoal); margin-bottom: 6px; letter-spacing: 0.25px; display: block; }
+    .pac-wrapper {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      overflow: visible;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      margin-bottom: 6px;
+    }
+    .pac-wrapper:focus-within {
+      border-color: var(--forest);
+      box-shadow: 0 0 0 3px rgba(42,92,30,0.12);
+    }
+    gmp-place-autocomplete {
+      width: 100%;
+      display: block;
+      --gmp-place-autocomplete-background-color: transparent;
+      --gmp-place-autocomplete-border-color: transparent;
+      --gmp-place-autocomplete-border-radius: 7px;
+      --gmp-place-autocomplete-box-shadow: none;
+      --gmp-place-autocomplete-font-family: 'Source Sans 3', sans-serif;
+      --gmp-place-autocomplete-font-size: 15px;
+      --gmp-place-autocomplete-input-padding-x: 13px;
+      --gmp-place-autocomplete-input-padding-y: 10px;
+    }
+    .pac-hint { font-size: 12px; color: var(--muted); font-style: italic; }
+
     /* ── PREVIEW MODAL ── */
     .modal-overlay {
       position: fixed;
@@ -609,6 +680,14 @@
       <div class="field">
         <label for="userEmail">Email Address <span class="req">*</span></label>
         <input type="email" id="userEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field">
+        <span class="pac-label">Search your address <span class="opt">(auto-fills fields below)</span></span>
+        <div class="pac-wrapper"><div id="pac-container"></div></div>
+        <p class="pac-hint">Select from suggestions to fill the fields automatically, or enter your address manually below.</p>
       </div>
     </div>
 
