@@ -411,23 +411,33 @@
     .btn-send:active { transform: scale(0.99); }
 
     .copy-fallback {
-      text-align: center;
-      margin-top: 14px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
+      margin-top: 12px;
     }
-    .copy-fallback button {
-      background: none;
-      border: none;
+    .btn-copy {
+      width: 100%;
+      padding: 14px 20px;
+      background: white;
       color: var(--navy);
-      font-size: 13px;
+      border: 2px solid var(--navy);
+      border-radius: 6px;
+      font-family: 'Lexend', sans-serif;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, color 0.15s;
     }
-    .copy-fallback button:hover { color: var(--navy-light); }
+    .btn-copy:hover { background: var(--navy); color: white; }
+    .copy-hint {
+      display: block;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
 
     /* ── MESSAGES ── */
     .msg {
@@ -636,7 +646,7 @@
 
   <!-- Email section -->
   <div class="card email-section" id="emailSection">
-    <div class="card-title">Your email</div>
+    <div class="card-title">Preview Your Email</div>
 
     <div class="recipients-field">
       <label class="field-label">To</label>
@@ -657,8 +667,8 @@
     </button>
 
     <div class="copy-fallback">
-      <button onclick="copyBody()">Copy Email Text</button>
-      &nbsp;— having trouble opening your email app, or prefer this method?
+      <button class="btn-copy" onclick="copyBody()">📋 &nbsp;Copy Email Text</button>
+      <span class="copy-hint">Having trouble opening your email app, or prefer this method?</span>
     </div>
   </div>
 
@@ -927,8 +937,16 @@ async function lookupRep() {
       ? recipientsList[0] || 'office staff'
       : recipientsList.slice(0, -1).join(', ') + ', and ' + recipientsList.at(-1);
 
+    const allEmails = [s.cosEmail, s.ldEmail];
+    if (s.ed && s.edEmail && !seenEmails.has(s.edEmail)) allEmails.push(s.edEmail);
+    if (s.ed2 && s.ed2Email) allEmails.push(s.ed2Email);
+    const emailList = [...new Set(allEmails.filter(Boolean))].join(', ');
+
     document.getElementById('recipientsBanner').innerHTML =
-      `This will go directly to Assemblymember ${memberName}'s ${humanList}. We encourage you to include your organization in the signature.`;
+      `This will go directly to Assemblymember ${memberName}'s ${humanList}.<br>
+      <span style="font-size:12.5px;color:#9A6020;margin-top:6px;display:block;">
+        <strong>Recipient email addresses:</strong> ${emailList}
+      </span>`;
 
     // Build email
     const org  = v('organization');
@@ -1036,17 +1054,27 @@ function sendEmail() {
 // COPY FALLBACK
 // ============================================================
 function copyBody() {
-  const text = document.getElementById('emailBody').value;
+  const { toSet } = buildRecipients();
+  const subject = document.getElementById('emailSubject').value.trim();
+  const body    = document.getElementById('emailBody').value;
+
+  const toLine      = toSet.size > 0 ? `To: ${[...toSet].join(', ')}` : '';
+  const subjectLine = `Subject: ${subject}`;
+  const separator   = '----------------------------------------';
+  const fullText    = [toLine, subjectLine, separator, body].filter(Boolean).join('\n');
+
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => alert('Email body copied to clipboard!'));
+    navigator.clipboard.writeText(fullText).then(() =>
+      alert('Copied! The recipient addresses and subject line are included at the top — paste them into your email client.')
+    );
   } else {
     const ta = document.createElement('textarea');
-    ta.value = text;
+    ta.value = fullText;
     document.body.appendChild(ta);
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
-    alert('Email body copied!');
+    alert('Copied! The recipient addresses and subject line are included at the top — paste them into your email client.');
   }
 }
 
