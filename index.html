@@ -1083,7 +1083,6 @@ async function lookupRep() {
     // Build email
     const org  = v('organization');
     const role = document.getElementById('roleType').value;
-    const city = v('city');
     const sig  = buildSignature(firstName, lastName, org, role, city);
     document.getElementById('emailBody').value    = buildEmailBody(firstName, lastName, memberName, sig);
     document.getElementById('emailSubject').value = EMAIL_SUBJECT;
@@ -1101,7 +1100,7 @@ async function lookupRep() {
     } else if (err.message.startsWith('openstates_')) {
       msg = 'Legislator lookup failed. Please try again in a moment.';
     }
-    showMsg('lookupError', msg + ' (' + err.message + ')', 'error');
+    showMsg('lookupError', msg, 'error');
   } finally {
     setLoading(false);
   }
