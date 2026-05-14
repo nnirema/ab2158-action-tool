@@ -1017,18 +1017,17 @@ async function lookupRep() {
       lng = window._cachedLatLng.lng;
       window._cachedLatLng = null; // consume once
     } else {
+      // Fallback for manual entry: use Google Maps Geocoder (already loaded, no extra API call)
+      const geocoder = new google.maps.Geocoder();
       const fullAddress = `${street}, ${city}, CA ${zip}`;
-      const geoRes = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json&limit=1&countrycodes=us`,
-        { headers: { 'Accept-Language': 'en-US' } }
-      );
-      if (!geoRes.ok) throw new Error('geocode_fail');
-      const geoData = await geoRes.json();
-      if (!geoData || geoData.length === 0) {
-        return showMsg('lookupError', 'We couldn\'t find that address. Please double-check your street, city, and ZIP code.', 'error');
-      }
-      lat = parseFloat(geoData[0].lat);
-      lng = parseFloat(geoData[0].lon);
+      const result = await new Promise((resolve, reject) => {
+        geocoder.geocode({ address: fullAddress, region: 'us' }, (results, status) => {
+          if (status === 'OK' && results && results.length > 0) resolve(results[0]);
+          else reject(new Error('geocode_fail'));
+        });
+      });
+      lat = result.geometry.location.lat();
+      lng = result.geometry.location.lng();
     }
 
     // Step 2: OpenStates /people.geo → CA Assembly member
@@ -1095,7 +1094,7 @@ async function lookupRep() {
   } catch (err) {
     let msg = 'Something went wrong. Please check your address and try again.';
     if (err.message === 'geocode_fail') {
-      msg = 'Address lookup failed. Please check your internet connection and try again.';
+      msg = 'Address not found. Please double-check your street address, city, and ZIP code.';
     } else if (err.message === 'no_assembly') {
       msg = 'We couldn\'t find a California Assemblymember for that address. Please verify your address is in California.';
     } else if (err.message.startsWith('openstates_')) {
