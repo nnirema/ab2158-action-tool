@@ -943,7 +943,7 @@ async function lookupRep() {
     const emailList = [...new Set(allEmails.filter(Boolean))].join(', ');
 
     document.getElementById('recipientsBanner').innerHTML =
-      `This will go directly to Assemblymember ${memberName}'s ${humanList}.<br>
+      `This email will go directly to ${humanList} in Assemblymember ${memberName}'s office.<br>
       <span style="font-size:12.5px;color:#9A6020;margin-top:6px;display:block;">
         <strong>Recipient email addresses:</strong> ${emailList}
       </span>`;
