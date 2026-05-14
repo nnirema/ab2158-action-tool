@@ -692,6 +692,19 @@
 
 </div>
 
+<!-- Copy overlay (fallback for Google Sites iframe) -->
+<div id="copyOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;width:100%;max-width:620px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">Select All &amp; Copy</div>
+      <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
+    </div>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.55;">Your browser doesn't allow automatic copying in this context. Press <strong>Cmd+A</strong> then <strong>Cmd+C</strong> (Mac) or <strong>Ctrl+A</strong> then <strong>Ctrl+C</strong> (Windows) to copy everything below.</p>
+    <textarea id="copyOverlayText" style="width:100%;height:280px;font-family:'Lexend',sans-serif;font-size:13px;padding:12px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
+    <button onclick="closeCopyOverlay()" style="margin-top:14px;width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Done</button>
+  </div>
+</div>
+
 <div class="footer">
   AB 2158 is sponsored by the <a href="https://sites.google.com/tenstrands.org/ca-outdoor-learning-coalition/home" target="_blank">California Campaign for Outdoor Learning</a> and <a href="https://www.tenstrands.org" target="_blank">Ten Strands</a>.<br>
   Your address is used solely to identify your Assemblymember and is not stored or shared.
@@ -1063,19 +1076,59 @@ function copyBody() {
   const separator   = '----------------------------------------';
   const fullText    = [toLine, subjectLine, separator, body].filter(Boolean).join('\n');
 
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(fullText).then(() =>
-      alert('Copied! The recipient addresses and subject line are included at the top — paste them into your email client.')
-    );
-  } else {
+  // Try modern clipboard API first
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(fullText).then(() => {
+      showCopySuccess();
+    }).catch(() => {
+      showCopyOverlay(fullText);
+    });
+    return;
+  }
+
+  // Try execCommand fallback
+  try {
     const ta = document.createElement('textarea');
     ta.value = fullText;
+    ta.style.position = 'fixed';
+    ta.style.opacity  = '0';
     document.body.appendChild(ta);
+    ta.focus();
     ta.select();
-    document.execCommand('copy');
+    const ok = document.execCommand('copy');
     document.body.removeChild(ta);
-    alert('Copied! The recipient addresses and subject line are included at the top — paste them into your email client.');
-  }
+    if (ok) { showCopySuccess(); return; }
+  } catch(e) {}
+
+  // Both failed (likely Google Sites iframe) — show manual copy overlay
+  showCopyOverlay(fullText);
+}
+
+function showCopySuccess() {
+  const btn = document.querySelector('.btn-copy');
+  const original = btn.innerHTML;
+  btn.innerHTML = '✅ &nbsp;Copied!';
+  btn.style.background = 'var(--navy)';
+  btn.style.color = 'white';
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 2500);
+}
+
+function showCopyOverlay(text) {
+  document.getElementById('copyOverlayText').value = text;
+  document.getElementById('copyOverlay').style.display = 'flex';
+  setTimeout(() => {
+    const ta = document.getElementById('copyOverlayText');
+    ta.focus();
+    ta.select();
+  }, 50);
+}
+
+function closeCopyOverlay() {
+  document.getElementById('copyOverlay').style.display = 'none';
 }
 
 // ============================================================
