@@ -484,14 +484,17 @@
     /* ── GOOGLE PLACES AUTOCOMPLETE (NEW API) ── */
     .pac-label { font-size: 13px; font-weight: 600; color: var(--charcoal); margin-bottom: 6px; letter-spacing: 0.25px; display: block; }
     .pac-wrapper {
-      display: flex;
+      display: flex !important;
       align-items: center;
       gap: 8px;
       border: 1.5px solid var(--border);
       border-radius: 6px;
       background: white;
       padding: 0 13px;
-      height: 44px;
+      height: 44px !important;
+      min-height: unset !important;
+      max-height: 44px !important;
+      overflow: hidden !important;
       transition: border-color 0.15s, box-shadow 0.15s;
       margin-bottom: 6px;
     }
