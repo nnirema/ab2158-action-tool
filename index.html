@@ -320,17 +320,20 @@
       animation: slideUp 0.35s ease;
     }
 
-    .recipients-banner {
+    /* ── TO FIELD ── */
+    .recipients-field {
+      margin-bottom: 20px;
+    }
+    .recipients-value {
       background: #FFF8F0;
       border: 1px solid #F0D5A8;
       border-radius: 6px;
       padding: 14px 18px;
       font-size: 13.5px;
       color: #7A4F18;
-      margin-bottom: 20px;
       line-height: 1.65;
     }
-    .recipients-banner strong { font-weight: 700; }
+    .recipients-value strong { font-weight: 700; }
 
     .field-label {
       font-size: 13px;
@@ -409,16 +412,17 @@
 
     .copy-fallback {
       text-align: center;
-      margin-top: 12px;
+      margin-top: 14px;
       font-size: 13px;
       color: var(--muted);
+      line-height: 1.6;
     }
     .copy-fallback button {
       background: none;
       border: none;
       color: var(--navy);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       text-decoration: underline;
       padding: 0;
@@ -517,125 +521,6 @@
     }
     .pac-input-direct::placeholder { color: #C0BDB8; }
     .pac-hint { font-size: 12px; color: var(--muted); font-style: italic; }
-
-    /* ── PREVIEW MODAL ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.visible { display: flex; }
-    .modal {
-      background: white;
-      border-radius: 14px;
-      width: 100%;
-      max-width: 620px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-      animation: slideUp 0.25s ease;
-    }
-    .modal-header {
-      padding: 22px 28px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-title {
-      font-family: 'Lexend', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--navy);
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-      color: var(--muted);
-      padding: 0 4px;
-      line-height: 1;
-    }
-    .modal-close:hover { color: var(--charcoal); }
-    .modal-body { padding: 18px 28px 24px; }
-    .modal-field {
-      margin-bottom: 14px;
-    }
-    .modal-field-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 5px;
-    }
-    .modal-field-value {
-      font-size: 14px;
-      color: var(--charcoal);
-      background: #FAFAF8;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 10px 13px;
-      line-height: 1.55;
-      word-break: break-all;
-    }
-    .modal-field-value.body-preview {
-      white-space: pre-wrap;
-      font-size: 13.5px;
-      line-height: 1.7;
-      max-height: 220px;
-      overflow-y: auto;
-      word-break: normal;
-    }
-    .modal-test-badge {
-      background: #FFF3CD;
-      border: 1px solid #F0C040;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13px;
-      color: #7A5A00;
-      margin-bottom: 18px;
-      line-height: 1.5;
-    }
-    .modal-test-badge strong { font-weight: 700; }
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .btn-modal-send {
-      flex: 1;
-      padding: 13px;
-      background: var(--orange);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-family: 'Lexend', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .btn-modal-send:hover { background: var(--orange-dark); }
-    .btn-modal-cancel {
-      flex: 0 0 auto;
-      padding: 13px 20px;
-      background: white;
-      color: var(--charcoal);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-family: 'Lexend', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: border-color 0.15s;
-    }
-    .btn-modal-cancel:hover { border-color: #AAA; }
   </style>
 </head>
 <body>
@@ -753,9 +638,12 @@
   <div class="card email-section" id="emailSection">
     <div class="card-title">Your email</div>
 
-    <div class="recipients-banner" id="recipientsBanner"></div>
+    <div class="recipients-field">
+      <label class="field-label">To</label>
+      <div class="recipients-value" id="recipientsBanner"></div>
+    </div>
 
-    <label class="field-label" for="emailSubject">Subject line</label>
+    <label class="field-label" for="emailSubject">Subject</label>
     <input type="text" id="emailSubject" value="[SUBJECT LINE — TO BE SET BY COALITION]">
 
     <label class="field-label" for="emailBody">Message <span class="opt" style="font-size:12px;">(feel free to personalize before sending)</span></label>
@@ -764,12 +652,13 @@
 
     <div id="sendError" class="msg error"></div>
 
-    <button class="btn-send" onclick="previewEmail()">
-      🔍 &nbsp;Preview Email Before Sending
+    <button class="btn-send" onclick="sendEmail()">
+      ✉️ &nbsp;Open in My Email
     </button>
 
     <div class="copy-fallback">
-      Prefer to copy and paste? <button onclick="copyBody()">Copy email text</button>
+      <button onclick="copyBody()">Copy Email Text</button>
+      &nbsp;— having trouble opening your email app, or prefer this method?
     </div>
   </div>
 
@@ -791,41 +680,6 @@
     <div class="share-nudge" style="margin-top:18px;">Help grow support — share this page with colleagues, parents, and community members who care about outdoor learning.</div>
   </div>
 
-</div>
-
-<!-- Preview modal -->
-<div class="modal-overlay" id="previewModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Preview Your Email</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-test-badge">
-        <strong>Review before sending.</strong> When you click "Open in My Email," your email client will open with all fields pre-filled. Just hit Send from there.
-      </div>
-      <div class="modal-field">
-        <div class="modal-field-label">To</div>
-        <div class="modal-field-value" id="previewTo"></div>
-      </div>
-      <div class="modal-field">
-        <div class="modal-field-label">BCC</div>
-        <div class="modal-field-value" id="previewBcc"></div>
-      </div>
-      <div class="modal-field">
-        <div class="modal-field-label">Subject</div>
-        <div class="modal-field-value" id="previewSubject"></div>
-      </div>
-      <div class="modal-field">
-        <div class="modal-field-label">Message</div>
-        <div class="modal-field-value body-preview" id="previewBody"></div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-modal-send" onclick="sendEmail()">✉️ &nbsp;Open in My Email</button>
-        <button class="btn-modal-cancel" onclick="closeModal()">← Edit</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="footer">
@@ -984,7 +838,6 @@ let currentMemberName = null;
 
 // ============================================================
 // LOOKUP — Census Bureau geocoder → OpenStates /people.geo
-// Same approach as Linda Livers' Custom GPT
 // ============================================================
 async function lookupRep() {
   const firstName = v('firstName');
@@ -1009,15 +862,13 @@ async function lookupRep() {
   setLoading(true);
 
   try {
-    // Step 1: Get lat/lng — use cached Google Places coords if available (faster, more reliable)
-    // Falls back to Nominatim for manually entered addresses
+    // Step 1: Get lat/lng — use cached Google Places coords if available
     let lat, lng;
     if (window._cachedLatLng) {
       lat = window._cachedLatLng.lat;
       lng = window._cachedLatLng.lng;
-      window._cachedLatLng = null; // consume once
+      window._cachedLatLng = null;
     } else {
-      // Fallback for manual entry: use Google Maps Geocoder (already loaded, no extra API call)
       const geocoder = new google.maps.Geocoder();
       const fullAddress = `${street}, ${city}, CA ${zip}`;
       const result = await new Promise((resolve, reject) => {
@@ -1037,7 +888,6 @@ async function lookupRep() {
     if (!osRes.ok) throw new Error(`openstates_${osRes.status}`);
     const osData = await osRes.json();
 
-    // Filter for CA lower chamber only
     const member = (osData.results || []).find(p =>
       p.jurisdiction?.id?.includes('state:ca') &&
       p.current_role?.org_classification === 'lower'
@@ -1078,7 +928,7 @@ async function lookupRep() {
       : recipientsList.slice(0, -1).join(', ') + ', and ' + recipientsList.at(-1);
 
     document.getElementById('recipientsBanner').innerHTML =
-      `<strong>Who receives this email:</strong> This will go directly to Assemblymember ${memberName}'s ${humanList}. We encourage you to include your organization in the signature.`;
+      `This will go directly to Assemblymember ${memberName}'s ${humanList}. We encourage you to include your organization in the signature.`;
 
     // Build email
     const org  = v('organization');
@@ -1134,7 +984,7 @@ function buildSignature(firstName, lastName, org, role, city) {
 }
 
 // ============================================================
-// RECIPIENT BUILDER (shared by preview and send)
+// RECIPIENT BUILDER (shared by send and copy)
 // ============================================================
 function buildRecipients() {
   const s = STAFF[currentDistrict];
@@ -1155,56 +1005,24 @@ function buildRecipients() {
 }
 
 // ============================================================
-// PREVIEW MODAL
+// SEND EMAIL
 // ============================================================
-function previewEmail() {
+function sendEmail() {
   const s = STAFF[currentDistrict];
   if (!s) return;
   clearMsg('sendError');
 
   const subject = document.getElementById('emailSubject').value.trim();
   const body    = document.getElementById('emailBody').value;
-  const { toSet, toList } = buildRecipients();
+  const { toSet } = buildRecipients();
 
   if (toSet.size === 0) {
     return showMsg('sendError', 'No recipient email addresses found for this district. Please contact us for assistance.', 'error');
   }
 
-  document.getElementById('previewTo').textContent      = toList.join('\n');
-  document.getElementById('previewBcc').textContent     = BCC_EMAIL;
-  document.getElementById('previewSubject').textContent = subject;
-  document.getElementById('previewBody').textContent    = body;
-  document.getElementById('previewModal').className     = 'modal-overlay visible';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  document.getElementById('previewModal').className = 'modal-overlay';
-  document.body.style.overflow = '';
-}
-
-// Close modal on overlay click
-document.getElementById('previewModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('previewModal')) closeModal();
-});
-
-// ============================================================
-// SEND EMAIL (fires from modal)
-// ============================================================
-function sendEmail() {
-  const s = STAFF[currentDistrict];
-  if (!s) return;
-
-  const subject = document.getElementById('emailSubject').value.trim();
-  const body    = document.getElementById('emailBody').value;
-  const { toSet } = buildRecipients();
-
-  if (toSet.size === 0) return;
-
   const bcc    = BCC_EMAIL ? `&bcc=${encodeURIComponent(BCC_EMAIL)}` : '';
   const mailto = `mailto:${[...toSet].join(',')}?subject=${encodeURIComponent(subject)}${bcc}&body=${encodeURIComponent(body)}`;
 
-  closeModal();
   submitTracking('Intent');
   window.location.href = mailto;
 
