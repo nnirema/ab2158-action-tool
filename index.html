@@ -636,7 +636,7 @@
   <div class="hero-tag">Take Action Now</div>
   <h1>Email your Assembly Member now to ensure a YES vote for AB 2158</h1>
   <p>The Outdoor Learning and Environmental Literacy Act of 2026 needs your voice. Send a message to your Assemblymember today.</p>
-  <div class="hero-deadline">Send your email by [DATE TBD]</div>
+  <div class="hero-deadline">Send your email by Monday, May 18</div>
 </div>
 
 <!-- Main -->
@@ -1068,7 +1068,8 @@ async function lookupRep() {
     // Build email
     const org  = v('organization');
     const role = document.getElementById('roleType').value;
-    const sig  = buildSignature(firstName, lastName, org, role);
+    const city = v('city');
+    const sig  = buildSignature(firstName, lastName, org, role, city);
     document.getElementById('emailBody').value    = buildEmailBody(firstName, lastName, memberName, sig);
     document.getElementById('emailSubject').value = EMAIL_SUBJECT;
     document.getElementById('emailSection').className = 'card email-section visible';
@@ -1108,8 +1109,10 @@ Thank you for your consideration and for your support of California's students a
 ${signature}`;
 }
 
-function buildSignature(firstName, lastName, org, role) {
+function buildSignature(firstName, lastName, org, role, city) {
   let sig = `Sincerely,\n${firstName} ${lastName}`;
+  if (currentDistrict) sig += `\nConstituent of Assembly District ${currentDistrict}`;
+  if (city) sig += `\nResident of ${city}, CA`;
   if (org)  sig += `\n${org}`;
   if (role) sig += `\n${role}`;
   return sig;
