@@ -6,7 +6,9 @@
   <title>Support AB 2158 – Email Your Assemblymember</title>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
-  // Google Places Autocomplete (Classic API) — regular input, full CSS control
+  // Google Places Autocomplete (Classic API) — stores lat/lng to skip Nominatim geocoding
+  window._cachedLatLng = null;
+
   window._initMapsAutocomplete = function() {
     try {
       const input = document.getElementById('pac-input');
@@ -15,12 +17,20 @@
       const autocomplete = new google.maps.places.Autocomplete(input, {
         componentRestrictions: { country: 'us' },
         types: ['address'],
-        fields: ['address_components']
+        fields: ['address_components', 'geometry']
       });
 
       autocomplete.addListener('place_changed', function() {
         const place = autocomplete.getPlace();
         if (!place.address_components) return;
+
+        // Cache lat/lng so we can skip Nominatim entirely
+        if (place.geometry && place.geometry.location) {
+          window._cachedLatLng = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          };
+        }
 
         let streetNum = '', route = '', city = '', state = '', zip = '';
         for (const c of place.address_components) {
@@ -999,21 +1009,27 @@ async function lookupRep() {
   setLoading(true);
 
   try {
-    // Step 1: Geocode → lat/lng via Nominatim/OpenStreetMap (free, no key, CORS-friendly)
-    const fullAddress = `${street}, ${city}, CA ${zip}`;
-    const geoRes = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json&limit=1&countrycodes=us`,
-      { headers: { 'Accept-Language': 'en-US' } }
-    );
-    if (!geoRes.ok) throw new Error('geocode_fail');
-    const geoData = await geoRes.json();
-
-    if (!geoData || geoData.length === 0) {
-      return showMsg('lookupError', 'We couldn\'t find that address. Please double-check your street, city, and ZIP code.', 'error');
+    // Step 1: Get lat/lng — use cached Google Places coords if available (faster, more reliable)
+    // Falls back to Nominatim for manually entered addresses
+    let lat, lng;
+    if (window._cachedLatLng) {
+      lat = window._cachedLatLng.lat;
+      lng = window._cachedLatLng.lng;
+      window._cachedLatLng = null; // consume once
+    } else {
+      const fullAddress = `${street}, ${city}, CA ${zip}`;
+      const geoRes = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json&limit=1&countrycodes=us`,
+        { headers: { 'Accept-Language': 'en-US' } }
+      );
+      if (!geoRes.ok) throw new Error('geocode_fail');
+      const geoData = await geoRes.json();
+      if (!geoData || geoData.length === 0) {
+        return showMsg('lookupError', 'We couldn\'t find that address. Please double-check your street, city, and ZIP code.', 'error');
+      }
+      lat = parseFloat(geoData[0].lat);
+      lng = parseFloat(geoData[0].lon);
     }
-
-    const lat = parseFloat(geoData[0].lat);
-    const lng = parseFloat(geoData[0].lon);
 
     // Step 2: OpenStates /people.geo → CA Assembly member
     const osRes  = await fetch(`https://v3.openstates.org/people.geo?lat=${lat}&lng=${lng}`, {
