@@ -421,9 +421,13 @@
       border: 2px solid var(--navy);
       border-radius: 6px;
       font-family: 'Lexend', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
-      display: block;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       transition: background 0.15s, color 0.15s;
     }
     .btn-copy:hover { background: var(--navy); color: white; }
@@ -663,10 +667,8 @@
     </button>
 
     <div class="copy-fallback">
-      <button class="btn-copy" onclick="copyBody()">
-        <span style="display:block;font-size:11.5px;font-weight:400;opacity:0.75;margin-bottom:5px;line-height:1.4;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste?</span>
-        <span style="display:block;font-size:15px;font-weight:700;">📋 &nbsp;Copy Email Text</span>
-      </button>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.5;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste?</p>
+      <button class="btn-copy" onclick="copyBody()">📋 &nbsp;Copy Email Text</button>
     </div>
   </div>
 
