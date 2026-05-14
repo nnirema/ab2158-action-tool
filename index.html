@@ -1092,6 +1092,7 @@ async function lookupRep() {
     setTimeout(() => document.getElementById('repReveal').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 
   } catch (err) {
+    console.error('lookupRep error:', err.message, err);
     let msg = 'Something went wrong. Please check your address and try again.';
     if (err.message === 'geocode_fail') {
       msg = 'Address not found. Please double-check your street address, city, and ZIP code.';
@@ -1100,7 +1101,7 @@ async function lookupRep() {
     } else if (err.message.startsWith('openstates_')) {
       msg = 'Legislator lookup failed. Please try again in a moment.';
     }
-    showMsg('lookupError', msg, 'error');
+    showMsg('lookupError', msg + ' (' + err.message + ')', 'error');
   } finally {
     setLoading(false);
   }
