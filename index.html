@@ -699,7 +699,15 @@
       <div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">Select All &amp; Copy</div>
       <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
     </div>
-    <p style="font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.55;">Your browser doesn't allow automatic copying in this context. Press <strong>Cmd+A</strong> then <strong>Cmd+C</strong> (Mac) or <strong>Ctrl+A</strong> then <strong>Ctrl+C</strong> (Windows) to copy everything below.</p>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.8;">
+      <span style="display:inline-flex;align-items:center;gap:4px;">
+        <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">A</kbd> then <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">C</kbd> on Mac
+      </span>
+      <br>
+      <span style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;">
+        <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">A</kbd> then <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">C</kbd> on Windows
+      </span>
+    </p>
     <textarea id="copyOverlayText" style="width:100%;height:280px;font-family:'Lexend',sans-serif;font-size:13px;padding:12px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
     <button onclick="closeCopyOverlay()" style="margin-top:14px;width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Done</button>
   </div>
