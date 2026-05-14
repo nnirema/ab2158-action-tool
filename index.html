@@ -421,13 +421,9 @@
       border: 2px solid var(--navy);
       border-radius: 6px;
       font-family: 'Lexend', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      display: block;
+      text-align: center;
       transition: background 0.15s, color 0.15s;
     }
     .btn-copy:hover { background: var(--navy); color: white; }
@@ -667,8 +663,10 @@
     </button>
 
     <div class="copy-fallback">
-      <button class="btn-copy" onclick="copyBody()">📋 &nbsp;Copy Email Text</button>
-      <span class="copy-hint">Having trouble opening your email app, or prefer this method?</span>
+      <button class="btn-copy" onclick="copyBody()">
+        <span style="display:block;font-size:11.5px;font-weight:400;opacity:0.75;margin-bottom:5px;line-height:1.4;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste?</span>
+        <span style="display:block;font-size:15px;font-weight:700;">📋 &nbsp;Copy Email Text</span>
+      </button>
     </div>
   </div>
 
@@ -943,7 +941,7 @@ async function lookupRep() {
     const emailList = [...new Set(allEmails.filter(Boolean))].join(', ');
 
     document.getElementById('recipientsBanner').innerHTML =
-      `This email will go directly to ${humanList} in Assemblymember ${memberName}'s office.<br>
+      `<strong>Assemblymember ${memberName}'s office:</strong> ${recipientsList.join(', ')}<br>
       <span style="font-size:12.5px;color:#9A6020;margin-top:6px;display:block;">
         <strong>Recipient email addresses:</strong> ${emailList}
       </span>`;
