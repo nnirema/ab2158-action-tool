@@ -6,29 +6,29 @@
   <title>Support AB 2158 – Email Your Assemblymember</title>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
-  // Google Places Autocomplete (New API) — initialised via callback once Maps loads
-  window._initMapsAutocomplete = async function() {
+  // Google Places Autocomplete (Classic API) — regular input, full CSS control
+  window._initMapsAutocomplete = function() {
     try {
-      const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
-      const ac = new PlaceAutocompleteElement({
-        componentRestrictions: { country: 'us' },
-        types: ['address']
-      });
-      const container = document.getElementById('pac-container');
-      if (!container) return;
-      container.appendChild(ac);
+      const input = document.getElementById('pac-input');
+      if (!input) return;
 
-      ac.addEventListener('gmp-select', async ({ placePrediction }) => {
-        const place = placePrediction.toPlace();
-        await place.fetchFields({ fields: ['addressComponents'] });
+      const autocomplete = new google.maps.places.Autocomplete(input, {
+        componentRestrictions: { country: 'us' },
+        types: ['address'],
+        fields: ['address_components']
+      });
+
+      autocomplete.addListener('place_changed', function() {
+        const place = autocomplete.getPlace();
+        if (!place.address_components) return;
 
         let streetNum = '', route = '', city = '', state = '', zip = '';
-        for (const c of place.addressComponents) {
-          if (c.types.includes('street_number'))                  streetNum = c.longText;
-          if (c.types.includes('route'))                          route     = c.longText;
-          if (c.types.includes('locality'))                       city      = c.longText;
-          if (c.types.includes('administrative_area_level_1'))    state     = c.shortText;
-          if (c.types.includes('postal_code'))                    zip       = c.longText;
+        for (const c of place.address_components) {
+          if (c.types.includes('street_number'))               streetNum = c.long_name;
+          if (c.types.includes('route'))                       route     = c.long_name;
+          if (c.types.includes('locality'))                    city      = c.long_name;
+          if (c.types.includes('administrative_area_level_1')) state     = c.short_name;
+          if (c.types.includes('postal_code'))                 zip       = c.long_name;
         }
 
         if (state && state !== 'CA') {
@@ -47,7 +47,7 @@
     }
   };
   </script>
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-6A5AKjE4jNuTt6xPWiqVMT6Mnf7PskA&loading=async&callback=_initMapsAutocomplete"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-6A5AKjE4jNuTt6xPWiqVMT6Mnf7PskA&libraries=places&callback=_initMapsAutocomplete"></script>
   <style>
     :root {
       --navy:         #2B4590;
@@ -484,34 +484,34 @@
     /* ── GOOGLE PLACES AUTOCOMPLETE (NEW API) ── */
     .pac-label { font-size: 13px; font-weight: 600; color: var(--charcoal); margin-bottom: 6px; letter-spacing: 0.25px; display: block; }
     .pac-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       border: 1.5px solid var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
       background: white;
-      overflow: hidden;
+      padding: 0 13px;
+      height: 44px;
       transition: border-color 0.15s, box-shadow 0.15s;
       margin-bottom: 6px;
-      height: 44px;
-      max-height: 44px;
     }
     .pac-wrapper:focus-within {
       border-color: var(--navy);
       box-shadow: 0 0 0 3px rgba(43,69,144,0.12);
     }
-    gmp-place-autocomplete {
+    .pac-icon { font-size: 14px; flex-shrink: 0; color: var(--muted); }
+    .pac-wrapper input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Lexend', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--charcoal);
       width: 100%;
-      display: block;
-      height: 44px;
-      max-height: 44px;
-      --gmp-place-autocomplete-background-color: transparent;
-      --gmp-place-autocomplete-border-color: transparent;
-      --gmp-place-autocomplete-border-radius: 7px;
-      --gmp-place-autocomplete-box-shadow: none;
-      --gmp-place-autocomplete-font-family: 'Lexend', sans-serif;
-      --gmp-place-autocomplete-font-size: 15px;
-      --gmp-place-autocomplete-input-padding-x: 13px;
-      --gmp-place-autocomplete-input-padding-y: 10px;
-      --gmp-place-autocomplete-height: 44px;
+      height: 100%;
     }
+    .pac-wrapper input::placeholder { color: #C0BDB8; }
     .pac-hint { font-size: 12px; color: var(--muted); font-style: italic; }
 
     /* ── PREVIEW MODAL ── */
@@ -674,7 +674,10 @@
     <div class="form-row">
       <div class="field">
         <span class="pac-label">Search your address <span class="opt">(auto-fills fields below)</span></span>
-        <div class="pac-wrapper"><div id="pac-container"></div></div>
+        <div class="pac-wrapper">
+          <span class="pac-icon">🔍</span>
+          <input type="text" id="pac-input" placeholder="Start typing your address..." autocomplete="off">
+        </div>
         <p class="pac-hint">Select from suggestions to fill the fields automatically, or enter your address manually below.</p>
       </div>
     </div>
