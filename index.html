@@ -672,9 +672,19 @@
       </button>
     </div>
     <div class="copy-fallback">
-      <p style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste? Use <strong>Copy Email Text</strong> — the recipient addresses and subject line will be included at the top of the copied text.</p>
+      <p style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste? Use <strong>Copy Email Text</strong> — the recipient addresses, BCC, and subject line will be included at the top of the copied text.</p>
     </div>
 
+    <!-- Did you send it — positioned immediately after action buttons -->
+    <div id="sentConfirmWrapper" style="margin-top:20px;padding:18px 20px;background:#EEF2FB;border:1.5px solid #A8BAE8;border-radius:10px;text-align:center;">
+      <p style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:10px;">Did you send it?</p>
+      <button onclick="confirmSent()" style="background:var(--blue-btn);color:white;border:none;border-radius:6px;padding:12px 28px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">
+        ✅ &nbsp;Yes, I sent it!
+      </button>
+    </div>
+    <div id="sentConfirmDone" style="display:none;margin-top:16px;padding:14px 20px;background:#EEF2FB;border:1.5px solid #A8BAE8;border-radius:10px;text-align:center;">
+      <p style="color:var(--navy);font-weight:700;font-size:15px;">✓ Recorded — thank you for making your voice heard!</p>
+    </div>
 
   </div>
 
@@ -682,17 +692,7 @@
   <div class="confirmation" id="confirmation">
     <div class="icon">🌿</div>
     <h3>Thank you for taking action on AB 2158!</h3>
-    <p>Your email client should have opened with everything pre-filled. Just hit Send.<br><br>
-    Your email contributes to the broad, statewide support for outdoor learning that California's students deserve.</p>
-    <div id="sentConfirmWrapper" style="margin-top:20px;">
-      <p style="font-size:14px;color:#3B5C30;margin-bottom:10px;">Did you send it?</p>
-      <button onclick="confirmSent()" style="background:var(--blue-btn);color:white;border:none;border-radius:6px;padding:12px 28px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">
-        ✅ &nbsp;Yes, I sent it!
-      </button>
-    </div>
-    <div id="sentConfirmDone" style="display:none;margin-top:16px;">
-      <p style="color:var(--navy);font-weight:700;font-size:15px;">✓ Recorded — thank you for making your voice heard!</p>
-    </div>
+    <p>Your email contributes to the broad, statewide support for outdoor learning that California's students deserve.</p>
     <div class="share-nudge" style="margin-top:18px;">Momentum is growing but we can't let up! Share this page with your networks, colleagues, and community who care about outdoor learning, mental health, and student wellbeing.</div>
     <div style="background:rgba(255,255,255,0.5);border-radius:10px;padding:20px 24px;margin-top:20px;text-align:left;">
       <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">What happens next:</p>
@@ -742,7 +742,7 @@ const EMAIL_SUBJECT      = 'Please Vote Aye on AB 2158, the Outdoor Learning and
 // Silent submissions — user never sees this
 // Form: https://docs.google.com/forms/d/e/1FAIpQLSfXeB9_idkZQhxeS7-_AZGT32wkX3S_5c6FPYChmWZcIB1cBw
 // ============================================================
-const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfXeB9_idkZQhxeS7-_AZGT32wkX3S_5c6FPYChmWZcIB1cBw/formResponse';
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScflV9ZwOQWnRCAZrX-nXHOAkgQPBDS98UNTrkCYnKGxMJ-kg/formResponse';
 const FORM_FIELDS = {
   firstName:       'entry.646362585',
   lastName:        'entry.2005636332',
@@ -779,6 +779,8 @@ function confirmSent() {
   submitTracking('Confirmed');
   document.getElementById('sentConfirmWrapper').style.display = 'none';
   document.getElementById('sentConfirmDone').style.display    = 'block';
+  document.getElementById('confirmation').className = 'confirmation visible';
+  document.getElementById('confirmation').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ============================================================
@@ -1091,11 +1093,6 @@ function sendEmail() {
 
   submitTracking('Intent');
   window.location.href = mailto;
-
-  setTimeout(() => {
-    document.getElementById('confirmation').className = 'confirmation visible';
-    document.getElementById('confirmation').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 900);
 }
 
 // ============================================================
@@ -1107,9 +1104,10 @@ function copyBody() {
   const body    = document.getElementById('emailBody').value;
 
   const toLine      = toSet.size > 0 ? `To: ${[...toSet].join(', ')}` : '';
+  const bccLine     = BCC_EMAIL ? `BCC: ${BCC_EMAIL}` : '';
   const subjectLine = `Subject: ${subject}`;
   const separator   = '----------------------------------------';
-  const fullText    = [toLine, subjectLine, separator, body].filter(Boolean).join('\n');
+  const fullText    = [toLine, bccLine, subjectLine, separator, body].filter(Boolean).join('\n');
 
   // Try modern clipboard API first
   if (navigator.clipboard && navigator.clipboard.writeText) {
