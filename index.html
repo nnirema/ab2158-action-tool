@@ -751,7 +751,7 @@ const FORM_FIELDS = {
   role:            'entry.1977971160',
   district:        'entry.1608632998',
   assemblymember:  'entry.989752393',
-  trackingType:    'entry.301788221', // Values: 'Intent' | 'Copy' | 'Confirmed'
+  trackingType:    'entry.301788221', // Values: 'Intent - Open in My Email' | 'Intent - Copy Email Text' | 'Confirmed' | 'CC Received'
 };
 
 function submitTracking(type) {
@@ -1091,7 +1091,7 @@ function sendEmail() {
   const cc    = CC_EMAIL ? `&cc=${encodeURIComponent(CC_EMAIL)}` : '';
   const mailto = `mailto:${[...toSet].join(',')}?subject=${encodeURIComponent(subject)}${cc}&body=${encodeURIComponent(body)}`;
 
-  submitTracking('Intent');
+  submitTracking('Intent - Open in My Email');
   window.location.href = mailto;
 }
 
@@ -1099,7 +1099,7 @@ function sendEmail() {
 // COPY FALLBACK
 // ============================================================
 function copyBody() {
-  submitTracking('Copy');
+  submitTracking('Intent - Copy Email Text');
   const { toSet } = buildRecipients();
   const subject = document.getElementById('emailSubject').value.trim();
   const body    = document.getElementById('emailBody').value;
