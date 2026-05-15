@@ -694,22 +694,22 @@
 
 <!-- Copy overlay (fallback for Google Sites iframe) -->
 <div id="copyOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:white;border-radius:14px;width:100%;max-width:620px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">Copy Your Email Text</div>
-      <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
+  <div style="background:white;border-radius:14px;width:100%;max-width:620px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="font-family:'Lexend',sans-serif;font-size:16px;font-weight:700;color:var(--navy);">Copy Your Email Text</div>
+      <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
     </div>
-    <p style="font-size:14px;color:var(--charcoal);margin-bottom:16px;line-height:1.7;">Your email text is ready and selected below. To copy and send it:</p>
-    <ol style="font-size:14px;color:var(--charcoal);line-height:2;padding-left:20px;margin-bottom:16px;">
-      <li>On a <strong>Mac:</strong> press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">C</kbd> to copy — if the text isn't highlighted, first press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">A</kbd> to select all</li>
-      <li>On a <strong>Windows PC:</strong> press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">C</kbd> to copy — if the text isn't highlighted, first press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">A</kbd> to select all</li>
-      <li><strong>Open your email</strong> — this could be Gmail, Outlook, Apple Mail, or any email service you use — and create a new email</li>
-      <li><strong>Click in the body of the new email and paste</strong> (<kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">V</kbd> on Mac, or <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">V</kbd> on Windows)</li>
+    <p style="font-size:12px;color:var(--charcoal);margin-bottom:12px;line-height:1.6;">Your email text is ready and selected below. To copy and send it:</p>
+    <ol style="font-size:12px;color:var(--charcoal);line-height:1.85;padding-left:18px;margin-bottom:14px;">
+      <li>On a <strong>Mac:</strong> press Cmd + A to select all, then Cmd + C to copy</li>
+      <li>On a <strong>Windows PC:</strong> press Ctrl + A to select all, then Ctrl + C to copy</li>
+      <li><strong>Open your email</strong> — Gmail, Outlook, Apple Mail, or any email service — and create a new email</li>
+      <li><strong>Click in the body and paste</strong> (Cmd + V on Mac, or Ctrl + V on Windows)</li>
       <li><strong>The recipient addresses are at the top</strong> — copy them into the "To" field</li>
       <li><strong>The subject line is also at the top</strong> — copy it into the "Subject" field</li>
     </ol>
-    <textarea id="copyOverlayText" style="width:100%;height:220px;font-family:'Lexend',sans-serif;font-size:13px;padding:12px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
-    <button onclick="closeCopyOverlay()" style="margin-top:14px;width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Done</button>
+    <textarea id="copyOverlayText" style="width:100%;height:200px;font-family:'Lexend',sans-serif;font-size:12px;padding:10px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
+    <button onclick="closeCopyOverlay()" style="margin-top:12px;width:100%;padding:12px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Done</button>
   </div>
 </div>
 
