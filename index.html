@@ -696,19 +696,19 @@
 <div id="copyOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:20px;">
   <div style="background:white;border-radius:14px;width:100%;max-width:620px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">Select All &amp; Copy</div>
+      <div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">Copy Your Email Text</div>
       <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
     </div>
-    <p style="font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.8;">
-      <span style="display:inline-flex;align-items:center;gap:4px;">
-        <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">A</kbd> then <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">C</kbd> on Mac
-      </span>
-      <br>
-      <span style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;">
-        <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">A</kbd> then <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-size:13px;font-family:sans-serif;">C</kbd> on Windows
-      </span>
-    </p>
-    <textarea id="copyOverlayText" style="width:100%;height:280px;font-family:'Lexend',sans-serif;font-size:13px;padding:12px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
+    <p style="font-size:14px;color:var(--charcoal);margin-bottom:16px;line-height:1.7;">Your email text is ready and selected below. To copy and send it:</p>
+    <ol style="font-size:14px;color:var(--charcoal);line-height:2;padding-left:20px;margin-bottom:16px;">
+      <li>On a <strong>Mac:</strong> press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">C</kbd> to copy — if the text isn't highlighted, first press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">A</kbd> to select all</li>
+      <li>On a <strong>Windows PC:</strong> press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">C</kbd> to copy — if the text isn't highlighted, first press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">A</kbd> to select all</li>
+      <li><strong>Open your email</strong> — this could be Gmail, Outlook, Apple Mail, or any email service you use — and create a new email</li>
+      <li><strong>Click in the body of the new email and paste</strong> (<kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">V</kbd> on Mac, or <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">V</kbd> on Windows)</li>
+      <li><strong>The recipient addresses are at the top</strong> — copy them into the "To" field</li>
+      <li><strong>The subject line is also at the top</strong> — copy it into the "Subject" field</li>
+    </ol>
+    <textarea id="copyOverlayText" style="width:100%;height:220px;font-family:'Lexend',sans-serif;font-size:13px;padding:12px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
     <button onclick="closeCopyOverlay()" style="margin-top:14px;width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Done</button>
   </div>
 </div>
