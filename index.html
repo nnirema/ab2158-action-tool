@@ -672,7 +672,7 @@
       </button>
     </div>
     <div class="copy-fallback">
-      <p style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste? Use <strong>Copy Email Text</strong> — the recipient addresses, BCC, and subject line will be included at the top of the copied text.</p>
+      <p style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste? Use <strong>Copy Email Text</strong> — the recipient addresses, CC, and subject line will be included at the top of the copied text.</p>
     </div>
 
     <!-- Did you send it — positioned immediately after action buttons -->
@@ -734,7 +734,7 @@
 // CONFIGURATION
 // ============================================================
 const OPENSTATES_API_KEY = '2e7d288d-50c8-442a-aa0f-f6f85cdec768';
-const BCC_EMAIL          = 'info@tenstrands.org';
+const CC_EMAIL          = 'info@tenstrands.org';
 const EMAIL_SUBJECT      = 'Please Vote Aye on AB 2158, the Outdoor Learning and Environmental Literacy Act';
 
 // ============================================================
@@ -1088,8 +1088,8 @@ function sendEmail() {
     return showMsg('sendError', 'No recipient email addresses found for this district. Please contact us for assistance.', 'error');
   }
 
-  const bcc    = BCC_EMAIL ? `&bcc=${encodeURIComponent(BCC_EMAIL)}` : '';
-  const mailto = `mailto:${[...toSet].join(',')}?subject=${encodeURIComponent(subject)}${bcc}&body=${encodeURIComponent(body)}`;
+  const cc    = CC_EMAIL ? `&cc=${encodeURIComponent(CC_EMAIL)}` : '';
+  const mailto = `mailto:${[...toSet].join(',')}?subject=${encodeURIComponent(subject)}${cc}&body=${encodeURIComponent(body)}`;
 
   submitTracking('Intent');
   window.location.href = mailto;
@@ -1104,10 +1104,10 @@ function copyBody() {
   const body    = document.getElementById('emailBody').value;
 
   const toLine      = toSet.size > 0 ? `To: ${[...toSet].join(', ')}` : '';
-  const bccLine     = BCC_EMAIL ? `BCC: ${BCC_EMAIL}` : '';
+  const ccLine     = CC_EMAIL ? `CC: ${CC_EMAIL}` : '';
   const subjectLine = `Subject: ${subject}`;
   const separator   = '----------------------------------------';
-  const fullText    = [toLine, bccLine, subjectLine, separator, body].filter(Boolean).join('\n');
+  const fullText    = [toLine, ccLine, subjectLine, separator, body].filter(Boolean).join('\n');
 
   // Try modern clipboard API first
   if (navigator.clipboard && navigator.clipboard.writeText) {
