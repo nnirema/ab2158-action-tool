@@ -751,7 +751,7 @@ const FORM_FIELDS = {
   role:            'entry.1977971160',
   district:        'entry.1608632998',
   assemblymember:  'entry.989752393',
-  trackingType:    'entry.301788221',
+  trackingType:    'entry.301788221', // Values: 'Intent' | 'Copy' | 'Confirmed'
 };
 
 function submitTracking(type) {
@@ -1099,6 +1099,7 @@ function sendEmail() {
 // COPY FALLBACK
 // ============================================================
 function copyBody() {
+  submitTracking('Copy');
   const { toSet } = buildRecipients();
   const subject = document.getElementById('emailSubject').value.trim();
   const body    = document.getElementById('emailBody').value;
