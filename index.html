@@ -539,8 +539,9 @@
 <!-- Hero -->
 <div class="hero">
   <div class="hero-tag">Take Action Now</div>
-  <h1>Email your Assembly Member now to ensure a YES vote for AB 2158</h1>
-  <p>The Outdoor Learning and Environmental Literacy Act of 2026 needs your voice. Send a message to your Assemblymember today.</p>
+  <h1>Email your Assemblymember now to request their "AYE" (YES) vote for AB 2158 during the Assembly floor vote</h1>
+  <p>Constituent voices matter most at this stage. Please take five minutes to email your Assemblymember by the end of day Monday, May 18 and ask them to vote Aye on AB 2158.</p>
+  <p style="color:rgba(255,255,255,0.7);font-size:13px;max-width:560px;margin:14px auto 0;line-height:1.65;position:relative;">Background: AB 2158, the Outdoor Learning and Environmental Literacy Act of 2026, passed off the Assembly Appropriations Committee Suspense File. The bill now heads to the Assembly Floor for a vote as soon as Tuesday, May 19, where it needs 41 of 80 votes to pass, before heading over to the Senate.</p>
   <div class="hero-deadline">Send your email by Monday, May 18</div>
 </div>
 
@@ -657,27 +658,29 @@
     <input type="text" id="emailSubject" value="[SUBJECT LINE — TO BE SET BY COALITION]">
 
     <label class="field-label" for="emailBody">Message <span class="opt" style="font-size:12px;">(feel free to personalize before sending)</span></label>
-    <div class="field-sub">Your email will open pre-filled in your mail app. Review it, personalize if you'd like, then hit Send.</div>
+    <div class="field-sub">Your email will open pre-filled in your default email provider (e.g. Apple Mail, Outlook, Gmail in Chrome). Review it, personalize if you'd like, then hit Send. Personalize by including a sentence about the benefits of outdoor learning you are aware of in their district, or share a short, relevant, personal story!</div>
     <textarea id="emailBody"></textarea>
 
     <div id="sendError" class="msg error"></div>
 
-    <button class="btn-send" onclick="sendEmail()">
-      ✉️ &nbsp;Open in My Email
-    </button>
-
-    <div class="copy-fallback">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.5;">Having issues with this content opening up into your default email service provider, or prefer to copy and paste?</p>
-      <button class="btn-copy" onclick="copyBody()">📋 &nbsp;Copy Email Text</button>
+    <div style="display:flex;gap:12px;margin-top:18px;">
+      <button class="btn-send" style="flex:1;margin-top:0;" onclick="sendEmail()">
+        ✉️ &nbsp;Try to Open in My Email
+      </button>
+      <button class="btn-copy" style="flex:1;margin-top:0;" onclick="copyBody()">
+        📋 &nbsp;Or Copy Email
+      </button>
     </div>
+
+
   </div>
 
   <!-- Confirmation -->
   <div class="confirmation" id="confirmation">
     <div class="icon">🌿</div>
-    <h3>Thank you for taking action!</h3>
+    <h3>Thank you for taking action on AB 2158!</h3>
     <p>Your email client should have opened with everything pre-filled. Just hit Send.<br><br>
-    Every message shows Assemblymembers that Californians care about outdoor learning and environmental literacy for every student.</p>
+    Your email contributes to the broad, statewide support for outdoor learning that California's students deserve.</p>
     <div id="sentConfirmWrapper" style="margin-top:20px;">
       <p style="font-size:14px;color:#3B5C30;margin-bottom:10px;">Did you send it?</p>
       <button onclick="confirmSent()" style="background:var(--blue-btn);color:white;border:none;border-radius:6px;padding:12px 28px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">
@@ -687,29 +690,34 @@
     <div id="sentConfirmDone" style="display:none;margin-top:16px;">
       <p style="color:var(--navy);font-weight:700;font-size:15px;">✓ Recorded — thank you for making your voice heard!</p>
     </div>
-    <div class="share-nudge" style="margin-top:18px;">Help grow support — share this page with colleagues, parents, and community members who care about outdoor learning.</div>
+    <div class="share-nudge" style="margin-top:18px;">Momentum is growing but we can't let up! Share this page with your networks, colleagues, and community who care about outdoor learning, mental health, and student wellbeing.</div>
+    <div style="background:rgba(255,255,255,0.5);border-radius:10px;padding:20px 24px;margin-top:20px;text-align:left;">
+      <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">What happens next:</p>
+      <p style="font-size:13.5px;color:#2B3E7A;line-height:1.75;">After the Assembly Floor vote on May 19 or May 26, AB 2158 will cross over to the Senate. It will be heard in the Senate Education Committee, then the Senate Appropriations Committee, and then the full Senate Floor before heading to the Governor, who has 30 days to sign it. We will share clear updates and action steps at each stage.</p>
+      <p style="font-size:13.5px;color:#2B3E7A;margin-top:12px;font-weight:500;">Thank you for speaking up for California's students!<br>— The California Campaign for Outdoor Learning Leadership Team</p>
+    </div>
   </div>
 
 </div>
 
 <!-- Copy overlay (fallback for Google Sites iframe) -->
 <div id="copyOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:white;border-radius:14px;width:100%;max-width:620px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-      <div style="font-family:'Lexend',sans-serif;font-size:16px;font-weight:700;color:var(--navy);">Copy Your Email Text</div>
-      <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
+  <div style="background:white;border-radius:14px;width:100%;max-width:620px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--navy);">Copy Your Email Text</div>
+      <button onclick="closeCopyOverlay()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;">✕</button>
     </div>
-    <p style="font-size:12px;color:var(--charcoal);margin-bottom:12px;line-height:1.6;">Your email text is ready and selected below. To copy and send it:</p>
-    <ol style="font-size:12px;color:var(--charcoal);line-height:1.85;padding-left:18px;margin-bottom:14px;">
-      <li>On a <strong>Mac:</strong> press Cmd + A to select all, then Cmd + C to copy</li>
-      <li>On a <strong>Windows PC:</strong> press Ctrl + A to select all, then Ctrl + C to copy</li>
-      <li><strong>Open your email</strong> — Gmail, Outlook, Apple Mail, or any email service — and create a new email</li>
-      <li><strong>Click in the body and paste</strong> (Cmd + V on Mac, or Ctrl + V on Windows)</li>
+    <p style="font-size:14px;color:var(--charcoal);margin-bottom:16px;line-height:1.7;">Your email text is ready and selected below. To copy and send it:</p>
+    <ol style="font-size:14px;color:var(--charcoal);line-height:2;padding-left:20px;margin-bottom:16px;">
+      <li>On a <strong>Mac:</strong> press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">C</kbd> to copy — if the text isn't highlighted, first press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">A</kbd> to select all</li>
+      <li>On a <strong>Windows PC:</strong> press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">C</kbd> to copy — if the text isn't highlighted, first press <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">A</kbd> to select all</li>
+      <li><strong>Open your email</strong> — this could be Gmail, Outlook, Apple Mail, or any email service you use — and create a new email</li>
+      <li><strong>Click in the body of the new email and paste</strong> (<kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">⌘ Cmd</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">V</kbd> on Mac, or <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">Ctrl</kbd> + <kbd style="background:#f0f0f0;border:1px solid #ccc;border-radius:4px;padding:2px 7px;font-family:sans-serif;">V</kbd> on Windows)</li>
       <li><strong>The recipient addresses are at the top</strong> — copy them into the "To" field</li>
       <li><strong>The subject line is also at the top</strong> — copy it into the "Subject" field</li>
     </ol>
-    <textarea id="copyOverlayText" style="width:100%;height:200px;font-family:'Lexend',sans-serif;font-size:12px;padding:10px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
-    <button onclick="closeCopyOverlay()" style="margin-top:12px;width:100%;padding:12px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Done</button>
+    <textarea id="copyOverlayText" style="width:100%;height:220px;font-family:'Lexend',sans-serif;font-size:13px;padding:12px;border:1.5px solid var(--border);border-radius:8px;resize:none;line-height:1.6;" readonly></textarea>
+    <button onclick="closeCopyOverlay()" style="margin-top:14px;width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:6px;font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Done</button>
   </div>
 </div>
 
@@ -723,8 +731,8 @@
 // CONFIGURATION
 // ============================================================
 const OPENSTATES_API_KEY = '2e7d288d-50c8-442a-aa0f-f6f85cdec768';
-const BCC_EMAIL          = 'ab2158coalition@gmail.com';
-const EMAIL_SUBJECT      = '[SUBJECT LINE — TO BE SET BY COALITION]';
+const BCC_EMAIL          = 'info@tenstrands.org';
+const EMAIL_SUBJECT      = 'Please Vote Aye on AB 2158, the Outdoor Learning and Environmental Literacy Act';
 
 // ============================================================
 // GOOGLE FORM TRACKING
@@ -999,16 +1007,32 @@ async function lookupRep() {
 // EMAIL BUILDER
 // ⚠️  PLACEHOLDER BODY — Nina to replace with coalition-approved copy.
 // ============================================================
+function extractLastName(fullName) {
+  if (fullName.includes(',')) return fullName.split(',')[0].trim();
+  const parts = fullName.trim().split(' ');
+  return parts.slice(1).join(' ') || fullName;
+}
+
 function buildEmailBody(firstName, lastName, memberName, signature) {
-  return `Dear ${memberName} Office Team,
+  const lastNameOnly = extractLastName(memberName);
+  return `Dear Assemblymember ${lastNameOnly},
 
-[EMAIL BODY — TO BE REPLACED WITH COALITION-APPROVED COPY]
+I am a constituent writing to respectfully request your Aye vote on AB 2158, the Outdoor Learning and Environmental Literacy Act of 2026, when it comes before the Assembly Floor on May 19 or 26.
 
-I am writing to urge you to vote YES on AB 2158, the Outdoor Learning and Environmental Literacy Act of 2026, authored by Assemblymember Hoover.
+The bill is led by Assemblymember Josh Hoover (R-Folsom) and Assemblymember Josh Lowenthal (D-Long Beach), with five additional bipartisan, bicameral co-authors.
 
-[ADD YOUR PERSONAL MESSAGE OR STORY HERE]
+AB 2158 has earned broad support at every step. It passed the Assembly Education Committee unanimously, 9 to 0, on April 8. On May 14, it passed off the Assembly Appropriations Suspense File with unanimous support from members of both parties. More than 600 organizations and individuals across California have signed the letter of support, including educators, pediatricians, public health experts, environmental organizations, school districts, digital safety advocates, and community leaders.
 
-Thank you for your consideration and for your support of California's students and schools.
+AB 2158 establishes a flexible, locally driven framework recognizing outdoor learning as an instructional context and directs the state to publish guidance on safety, equity, partnerships, and best practices. The bill's pilot component is contingent upon future appropriation and limited to up to six sites statewide. AB 2158 preserves local control, creates no new curriculum mandates, builds on SB 720 (Allen, 2018), and creates a framework for coordination and guidance rather than a new ongoing programmatic mandate.
+
+Resources
+- Coalition AB 2158 webpage (includes fact sheet, press releases, authors): bit.ly/4nupHIx
+- Letter of support: bit.ly/4nECxnC
+- Research case for outdoor learning: bit.ly/4dKwIRX
+
+Students who learn outdoors show improved attendance, higher engagement, better attention and concentration, stronger academic performance, and better mental and physical health.
+
+Thank you for considering my request and for your service to California's students! Please vote Aye on AB 2158.
 
 ${signature}`;
 }
